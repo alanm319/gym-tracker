@@ -12,8 +12,6 @@ def load_csv(path: str) -> pd.DataFrame:
         raise Exception(f"CSV is missing required columns: {missing}")
     return df
 
-
-
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     df.drop(columns=["description", "set_type", "superset_id", "exercise_notes", "distance_miles", "duration_seconds", "rpe"], inplace=True)
     df['date'] = pd.to_datetime(df['start_time'], format='%b %d, %Y at %I:%M %p').dt.date

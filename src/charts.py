@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
+import pandas as pd
+import streamlit as st
 
-def plot_max_weight(by_exercise_df, exercise_name):
+
+def plot_max_weight(by_exercise_df: pd.DataFrame, exercise_name: str):
     exercise_df = by_exercise_df[by_exercise_df["exercise_title"] == exercise_name]
 
     fig, ax = plt.subplots()
@@ -10,7 +13,8 @@ def plot_max_weight(by_exercise_df, exercise_name):
     ax.set_title(exercise_name)
     return fig
 
-def plot_volume(by_exercise_df, exercise_name):
+
+def plot_volume(by_exercise_df: pd.DataFrame, exercise_name: str):
     exercise_df = by_exercise_df[by_exercise_df["exercise_title"] == exercise_name]
 
     fig, ax = plt.subplots()
@@ -20,7 +24,8 @@ def plot_volume(by_exercise_df, exercise_name):
     ax.set_title(exercise_name)
     return fig
 
-def plot_best_set_volume(by_exercise_df, exercise_name):
+
+def plot_best_set_volume(by_exercise_df: pd.DataFrame, exercise_name: str):
     exercise_df = by_exercise_df[by_exercise_df["exercise_title"] == exercise_name]
 
     fig, ax = plt.subplots()
@@ -30,7 +35,8 @@ def plot_best_set_volume(by_exercise_df, exercise_name):
     ax.set_title(exercise_name)
     return fig
 
-def plot_1rm(by_exercise_df, exercise_name):
+
+def plot_1rm(by_exercise_df: pd.DataFrame, exercise_name: str):
     exercise_df = by_exercise_df[by_exercise_df["exercise_title"] == exercise_name]
 
     fig, ax = plt.subplots()

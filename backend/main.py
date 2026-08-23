@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .routers import exercises
+from routers import exercises
 
 app = FastAPI()
 

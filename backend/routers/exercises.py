@@ -1,27 +1,11 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 import pandas as pd
 import json
 
+from schemas import MetricPoint, ExerciseMetrics
+from data import get_workouts_df
+
 router = APIRouter()
-
-class MetricPoint(BaseModel):
-    start_time: str
-    value: float
-    
-class ExerciseMetrics(BaseModel):
-    start_time: str
-    heaviest: float
-    session_volume: float
-    best_volume: float
-    estimated_1rm: float
-
-def get_workouts_df():
-    df = pd.read_csv("workouts.csv")
-    df["start_time"] = pd.to_datetime(df["start_time"], format="%b %d, %Y at %I:%M %p",)
-    df["end_time"] = pd.to_datetime(df["end_time"], format="%b %d, %Y at %I:%M %p",)
-    df["set_volume"] = df["weight_lbs"] * df["reps"]
-    return df
 
 @router.get("/exercises/")
 def get_exercises():
@@ -54,7 +38,7 @@ def get_session_volume(name: str):
     return json.loads(result.reset_index().to_json(orient="records", date_format="iso"))
 
 #TODO error checking
-@router.get("/exercises/{name}/best-volume")
+@router.get("/exercises/{name}/best-volume", response_model=list[MetricPoint])
 def get_best_volume(name: str):
     df = get_workouts_df()
     filtered = df[df["exercise_title"] == name]
@@ -63,7 +47,7 @@ def get_best_volume(name: str):
     return json.loads(result.reset_index().to_json(orient="records", date_format="iso"))
 
 #TODO error checking for incorrect exercise name and for reps higher than 37
-@router.get("/exercises/{name}/1rm")
+@router.get("/exercises/{name}/1rm", response_model=list[MetricPoint])
 def get_1rm(name: str):
     df = get_workouts_df()
     filtered = df[df["exercise_title"] == name].copy()

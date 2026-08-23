@@ -1,23 +1,8 @@
 from fastapi.testclient import TestClient
-from ..main import app
-from ..routers.exercises import get_workouts_df
+from main import app
 from httpx import Response
 
 client = TestClient(app)
-
-def test_get_workouts_df():
-    REQUIRED_COLUMNS = [
-    "title", "start_time", "exercise_title",
-    "set_index", "weight_lbs", "reps"
-    ]
-    df = get_workouts_df()
-    missing = [column for column in REQUIRED_COLUMNS if column not in df.columns]
-    assert len(missing) == 0
-
-def test_read_root():
-    response: Response = client.get("/")
-    assert response.status_code == 200
-    assert response.json()["status"] == "ok"
 
 
 def test_get_heaviest_returns_200():

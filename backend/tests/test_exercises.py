@@ -37,11 +37,11 @@ def test_get_best_volume_returns_expected_shape():
     assert "value" in data[0]
 
 def test_get_1rm_returns_200():
-    response: Response = client.get("exercises/Bench Press (Barbell)/session-volume")
+    response: Response = client.get("exercises/Bench Press (Barbell)/1rm")
     assert response.status_code == 200
 
 def test_get_1rm_returns_expected_shape():
-    response: Response = client.get("exercises/Bench Press (Barbell)/session-volume")
+    response: Response = client.get("exercises/Bench Press (Barbell)/1rm")
     data = response.json()
     assert "start_time" in data[0]
     assert "value" in data[0]

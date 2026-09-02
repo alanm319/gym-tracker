@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 import pandas as pd
 import json
 
@@ -7,7 +7,7 @@ from data import get_workouts_df
 
 router = APIRouter()
 
-@router.get("/exercises/")
+@router.get("/exercises")
 def get_exercises():
     df = get_workouts_df()
     return json.loads(df.to_json(orient="records", date_format="iso"))
@@ -17,6 +17,11 @@ def get_exercises():
 def get_exercise(name: str):
     df = get_workouts_df()
     filtered = df[df["exercise_title"] == name]
+    if filtered.empty:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Exercise '{name}' not found"
+        )
     return json.loads(filtered.to_json(orient="records", date_format="iso"))
 
 #TODO error checking
